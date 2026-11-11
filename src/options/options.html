@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<!--
+  WaBLUR – Options / Advanced Settings Page
+  SECURITY: Runs in the extension context. Strict CSP. No inline scripts.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WaBLUR – Advanced Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="options-container" role="main" aria-label="WaBLUR Advanced Settings">
+
+    <!-- Header -->
+    <header class="options-header">
+      <div class="logo-row">
+        <img src="../../icons/icon-48.png" alt="" width="32" height="32" aria-hidden="true">
+        <div>
+          <h1>WaBLUR – Advanced Settings</h1>
+          <p class="subtitle">Configure privacy blur behavior and per-contact rules</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Settings Sections -->
+    <div class="settings-grid">
+
+      <!-- ====== Blur Controls ====== -->
+      <section class="card" aria-labelledby="blur-controls-heading">
+        <h2 id="blur-controls-heading">Blur Controls</h2>
+
+        <div class="field">
+          <label class="toggle-label" for="masterToggle">
+            <div>
+              <span class="label-text">Master Enable</span>
+              <span class="label-desc">Turn all blur on or off</span>
+            </div>
+            <div class="toggle-switch">
+              <input type="checkbox" id="masterToggle" role="switch">
+              <span class="toggle-slider"></span>
+            </div>
+          </label>
+        </div>
+
+        <div class="field-row">
+          <label class="toggle-label compact" for="blurNames">
+            <span class="label-text">Contact Names</span>
+            <div class="toggle-switch sm">
+              <input type="checkbox" id="blurNames" role="switch">
+              <span class="toggle-slider"></span>
+            </div>
+          </label>
+          <label class="toggle-label compact" for="blurPreviews">
+            <span class="label-text">Chat Previews</span>
+            <div class="toggle-switch sm">
+              <input type="checkbox" id="blurPreviews" role="switch">
+              <span class="toggle-slider"></span>
+            </div>
+          </label>
+          <label class="toggle-label compact" for="blurMessages">
+            <span class="label-text">Messages</span>
+            <div class="toggle-switch sm">
+              <input type="checkbox" id="blurMessages" role="switch">
+              <span class="toggle-slider"></span>
+            </div>
+          </label>
+          <label class="toggle-label compact" for="blurAvatars">
+            <span class="label-text">Avatars</span>
+            <div class="toggle-switch sm">
+              <input type="checkbox" id="blurAvatars" role="switch">
+              <span class="toggle-slider"></span>
+            </div>
+          </label>
+          <label class="toggle-label compact" for="blurMedia">
+            <span class="label-text">Media</span>
+            <div class="toggle-switch sm">
+              <input type="checkbox" id="blurMedia" role="switch">
+              <span class="toggle-slider"></span>
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <!-- ====== Appearance & Behavior ====== -->
+      <section class="card" aria-labelledby="appearance-heading">
+        <h2 id="appearance-heading">Appearance & Behavior</h2>
+
+        <div class="field">
+          <label for="blurIntensity" class="label-text">Blur Intensity</label>
+          <div class="slider-row">
+            <input type="range" id="blurIntensity" min="1" max="30" step="1"
+                   aria-label="Blur intensity in pixels">
+            <span class="slider-value" id="intensityValue">8px</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="transitionDuration" class="label-text">Transition Speed</label>
+          <span class="label-desc">How fast blur fades in/out (seconds)</span>
+          <div class="slider-row">
+            <input type="range" id="transitionDuration" min="0" max="1" step="0.05"
+                   aria-label="Transition duration in seconds">
+            <span class="slider-value" id="transitionValue">0.25s</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="hoverProximity" class="label-text">Hover Proximity</label>
+          <span class="label-desc">Extra hit area around elements (pixels)</span>
+          <div class="slider-row">
+            <input type="range" id="hoverProximity" min="0" max="50" step="5"
+                   aria-label="Hover proximity in pixels">
+            <span class="slider-value" id="proximityValue">0px</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="hoverDelay" class="label-text">Hover Delay</label>
+          <span class="label-desc">Delay before reveal on hover (milliseconds, 0 = instant)</span>
+          <div class="slider-row">
+            <input type="range" id="hoverDelay" min="0" max="1000" step="50"
+                   aria-label="Hover reveal delay in milliseconds">
+            <span class="slider-value" id="delayValue">0ms</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="tempRevealDuration" class="label-text">Temp Reveal Duration</label>
+          <span class="label-desc">How long the temporary reveal lasts (milliseconds)</span>
+          <div class="slider-row">
+            <input type="range" id="tempRevealDuration" min="1000" max="30000" step="500"
+                   aria-label="Temporary reveal duration in milliseconds">
+            <span class="slider-value" id="tempRevealValue">3000ms</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== Per-Contact Rules ====== -->
+      <section class="card" aria-labelledby="contacts-heading">
+        <h2 id="contacts-heading">Per-Contact Rules</h2>
+
+        <!-- Whitelist -->
+        <div class="field">
+          <label class="label-text">Whitelist (never blur)</label>
+          <span class="label-desc">Enter exact contact names, one per line</span>
+          <textarea id="whitelist" rows="4" placeholder="Mom&#10;Work Group&#10;John Doe"
+                    aria-label="Whitelist: contacts that are never blurred"></textarea>
+        </div>
+
+        <!-- Blacklist -->
+        <div class="field">
+          <label class="label-text">Blacklist (always blur, even when master is off)</label>
+          <span class="label-desc">Enter exact contact names, one per line</span>
+          <textarea id="blacklist" rows="4" placeholder="Nosy Coworker&#10;Secret Group"
+                    aria-label="Blacklist: contacts that are always blurred"></textarea>
+        </div>
+      </section>
+
+      <!-- ====== Keyboard Shortcuts ====== -->
+      <section class="card" aria-labelledby="shortcuts-heading">
+        <h2 id="shortcuts-heading">Keyboard Shortcuts</h2>
+        <p class="label-desc">
+          These shortcuts are configured in your browser's extension settings.
+          To change them, visit <code>edge://extensions/shortcuts</code>.
+        </p>
+        <div class="shortcut-list">
+          <div class="shortcut-item">
+            <span class="shortcut-action">Toggle blur on/off</span>
+            <span class="shortcut-keys"><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd></span>
+          </div>
+          <div class="shortcut-item">
+            <span class="shortcut-action">Temporary reveal</span>
+            <span class="shortcut-keys"><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd></span>
+          </div>
+          <div class="shortcut-item">
+            <span class="shortcut-action">Cancel temp reveal</span>
+            <span class="shortcut-keys"><kbd>Esc</kbd> <span class="note">(on WhatsApp page)</span></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== Privacy & Security ====== -->
+      <section class="card" aria-labelledby="privacy-heading">
+        <h2 id="privacy-heading">Privacy & Security</h2>
+        <ul class="privacy-list">
+          <li>✅ All data stays local – nothing is transmitted</li>
+          <li>✅ No analytics, tracking, or telemetry</li>
+          <li>✅ Minimal permissions – only web.whatsapp.com</li>
+          <li>✅ No remote code execution</li>
+          <li>✅ Open source – inspect every line</li>
+          <li>✅ CSS-only blur for maximum performance</li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Save / Reset Buttons -->
+    <div class="actions-bar">
+      <button id="saveBtn" class="action-btn primary">Save Settings</button>
+      <button id="resetBtn" class="action-btn danger">Reset to Defaults</button>
+      <span id="saveStatus" class="save-status" aria-live="polite"></span>
+    </div>
+
+  </div>
+
+  <!-- SECURITY: Script loaded from local extension file only -->
+  <script src="options.js"></script>
+</body>
+</html>
+

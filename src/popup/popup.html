@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--
+  WaBLUR – Popup UI
+  SECURITY: This page runs in the extension context with strict CSP.
+  No inline scripts, no remote resources, no eval().
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WaBLUR</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container" role="main" aria-label="WaBLUR Privacy Controls">
+
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="logo-row">
+        <img src="../../icons/icon-32.png" alt="" width="24" height="24" aria-hidden="true">
+        <h1>WaBLUR</h1>
+      </div>
+      <p class="subtitle">Privacy Blur for WhatsApp Web</p>
+    </header>
+
+    <!-- Master Toggle -->
+    <div class="control-group master-toggle">
+      <label class="toggle-label" for="masterToggle">
+        <span class="label-text">Enable Blur</span>
+        <div class="toggle-switch">
+          <input type="checkbox" id="masterToggle" role="switch" aria-label="Master blur toggle">
+          <span class="toggle-slider"></span>
+        </div>
+      </label>
+      <p class="status-text" id="statusText" aria-live="polite">Active</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Feature Toggles -->
+    <div class="control-group">
+      <h2 class="section-title">What to Blur</h2>
+
+      <label class="toggle-label" for="blurNames">
+        <span class="label-text">Contact Names</span>
+        <div class="toggle-switch">
+          <input type="checkbox" id="blurNames" role="switch" aria-label="Blur contact names">
+          <span class="toggle-slider"></span>
+        </div>
+      </label>
+
+      <label class="toggle-label" for="blurPreviews">
+        <span class="label-text">Chat Previews</span>
+        <div class="toggle-switch">
+          <input type="checkbox" id="blurPreviews" role="switch" aria-label="Blur chat preview text">
+          <span class="toggle-slider"></span>
+        </div>
+      </label>
+
+      <label class="toggle-label" for="blurMessages">
+        <span class="label-text">Open Chat Messages</span>
+        <div class="toggle-switch">
+          <input type="checkbox" id="blurMessages" role="switch" aria-label="Blur open chat messages">
+          <span class="toggle-slider"></span>
+        </div>
+      </label>
+
+      <label class="toggle-label" for="blurAvatars">
+        <span class="label-text">Avatars</span>
+        <div class="toggle-switch">
+          <input type="checkbox" id="blurAvatars" role="switch" aria-label="Blur avatars and profile pictures">
+          <span class="toggle-slider"></span>
+        </div>
+      </label>
+
+      <label class="toggle-label" for="blurMedia">
+        <span class="label-text">Media (Images/Videos)</span>
+        <div class="toggle-switch">
+          <input type="checkbox" id="blurMedia" role="switch" aria-label="Blur media in messages">
+          <span class="toggle-slider"></span>
+        </div>
+      </label>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Blur Intensity -->
+    <div class="control-group">
+      <h2 class="section-title">Blur Intensity</h2>
+      <div class="slider-row">
+        <input type="range" id="blurIntensity" min="1" max="30" step="1"
+               aria-label="Blur intensity in pixels" aria-valuemin="1" aria-valuemax="30">
+        <span class="slider-value" id="intensityValue">8px</span>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Quick Actions -->
+    <div class="control-group actions">
+      <button id="tempRevealBtn" class="action-btn" aria-label="Temporarily reveal all blurred content">
+        👁 Temp Reveal
+      </button>
+      <button id="openOptionsBtn" class="action-btn secondary" aria-label="Open advanced settings">
+        ⚙ Advanced Settings
+      </button>
+    </div>
+
+    <!-- Keyboard Shortcuts Info -->
+    <div class="shortcuts-info" aria-label="Keyboard shortcuts">
+      <p><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd> Toggle blur</p>
+      <p><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> Temp reveal</p>
+    </div>
+
+  </div>
+
+  <!-- SECURITY: Script loaded from local extension file, not inline -->
+  <script src="popup.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,272 @@
+/* ==========================================================================
+ * WaBLUR – Popup Stylesheet
+ * ========================================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  color: #1a1a2e;
+  background: #ffffff;
+  min-width: 300px;
+  max-width: 320px;
+}
+
+.popup-container {
+  padding: 16px;
+}
+
+/* ---------- Header ---------- */
+
+.popup-header {
+  margin-bottom: 12px;
+}
+
+.logo-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-row h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #128C7E; /* WhatsApp green */
+  letter-spacing: -0.3px;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: #667;
+  margin-top: 2px;
+  padding-left: 32px;
+}
+
+/* ---------- Control Groups ---------- */
+
+.control-group {
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #999;
+  margin-bottom: 8px;
+}
+
+/* ---------- Toggle Switch ---------- */
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  cursor: pointer;
+}
+
+.label-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: background-color 0.2s ease;
+  border-radius: 22px;
+}
+
+.toggle-slider::before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: transform 0.2s ease;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: #128C7E;
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(18px);
+}
+
+.toggle-switch input:focus-visible + .toggle-slider {
+  outline: 2px solid #128C7E;
+  outline-offset: 2px;
+}
+
+/* ---------- Master Toggle ---------- */
+
+.master-toggle .toggle-label {
+  padding: 4px 0;
+}
+
+.master-toggle .label-text {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.status-text {
+  font-size: 11px;
+  color: #128C7E;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.status-text.disabled {
+  color: #999;
+}
+
+/* ---------- Slider ---------- */
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.slider-row input[type="range"] {
+  flex: 1;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ddd;
+  border-radius: 4px;
+  outline: none;
+}
+
+.slider-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #128C7E;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.slider-row input[type="range"]:focus-visible {
+  outline: 2px solid #128C7E;
+  outline-offset: 2px;
+}
+
+.slider-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #128C7E;
+  min-width: 32px;
+  text-align: right;
+}
+
+/* ---------- Divider ---------- */
+
+.divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 8px 0;
+}
+
+/* ---------- Action Buttons ---------- */
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background: #128C7E;
+  color: white;
+}
+
+.action-btn:hover {
+  background: #0e7a6e;
+  transform: translateY(-1px);
+}
+
+.action-btn:active {
+  transform: translateY(0);
+}
+
+.action-btn:focus-visible {
+  outline: 2px solid #128C7E;
+  outline-offset: 2px;
+}
+
+.action-btn.secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.action-btn.secondary:hover {
+  background: #e0e0e0;
+}
+
+/* ---------- Shortcuts Info ---------- */
+
+.shortcuts-info {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+}
+
+.shortcuts-info p {
+  font-size: 10px;
+  color: #999;
+  margin-bottom: 3px;
+}
+
+kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  font-size: 10px;
+  font-family: 'Segoe UI', monospace;
+  background: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #ddd;
+}
+
