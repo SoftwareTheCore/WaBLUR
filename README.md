@@ -40,7 +40,6 @@ Semua teks pesan, nama, preview, dan gambar akan otomatis diburamkan (**blur**).
   - Blur Nama Kontak (*Contact Names*)
   - Blur Pesan Terakhir di Daftar Chat (*Last Message Preview*)
   - Blur Foto Profil / Avatar
-  - Blur Gambar, Stiker, dan Video
 - 📏 **Atur Tingkat Ketebalan Blur**: Sesuaikan intensitas blur dari tipis (1px) hingga tebal tak terbaca (30px).
 - ⏱️ **Temporary Reveal**: Buka seluruh blur selama beberapa detik dengan satu tombol saat Anda sedang butuh melihat semua pesan.
 - 📋 **Whitelist & Blacklist Kontak**:
@@ -91,7 +90,7 @@ Langkah Cepat:
 ### 1. Menu Cepat (Klik Ikon WaBLUR)
 Klik ikon WaBLUR di pojok kanan atas browser untuk membuka menu:
 * **Master Switch**: Tombol on/off utama untuk mengaktifkan atau mematikan blur secara instan.
-* **Elemen Pilihan**: Centang apa saja yang ingin diblur (Nama, Pesan, Media, Foto Profil, Preview).
+* **Elemen Pilihan**: Centang apa saja yang ingin diblur (Nama, Pesan, Foto Profil, Preview).
 * **Slider Intensitas**: Geser ke kanan untuk efek blur lebih tebal.
 * **Temp Reveal**: Tombol darurat untuk membuka semua blur sementara waktu.
 * **Pengaturan Lanjutan**: Membuka halaman opsi penuh (*Options Page*).

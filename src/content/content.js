@@ -119,7 +119,6 @@ function applyConfigToDOM() {
   html.classList.toggle('wablur-previews', config.blurPreviews);
   html.classList.toggle('wablur-messages', config.blurMessages);
   html.classList.toggle('wablur-avatars', config.blurAvatars);
-  html.classList.toggle('wablur-media', config.blurMedia);
 
   // CSS custom properties – validated as numbers to prevent CSS injection.
   html.style.setProperty('--wablur-intensity', `${Number(config.blurIntensity) || 8}px`);
@@ -251,6 +250,7 @@ function setupHoverDelay() {
   const selectors = [
     '#pane-side',
     '[data-testid="conversation-panel-messages"]',
+    '#main',
   ];
 
   selectors.forEach(sel => {
@@ -260,7 +260,7 @@ function setupHoverDelay() {
     // Delegated mouseover – find the closest blurrable ancestor
     container.addEventListener('mouseover', (e) => {
       const target = e.target.closest(
-        '[data-testid="cell-frame-container"], [data-testid="msg-container"], .message-in, .message-out'
+        '[data-testid="cell-frame-container"], [role="row"], [role="gridcell"], [role="listitem"], [data-testid="msg-container"], .message-in, .message-out, [data-id*="false_"], [data-id*="true_"], [data-testid*="pinned"], [data-testid="pinned-message-banner"], [aria-label*="pinned" i], [aria-label*="disematkan" i], [data-testid="msg-image"], [data-testid="image-thumb"], [data-testid*="media"], img, video'
       );
       if (!target) return;
 
@@ -278,7 +278,7 @@ function setupHoverDelay() {
     // Delegated mouseout – immediately remove reveal
     container.addEventListener('mouseout', (e) => {
       const target = e.target.closest(
-        '[data-testid="cell-frame-container"], [data-testid="msg-container"], .message-in, .message-out'
+        '[data-testid="cell-frame-container"], [role="row"], [role="gridcell"], [role="listitem"], [data-testid="msg-container"], .message-in, .message-out, [data-id*="false_"], [data-id*="true_"], [data-testid*="pinned"], [data-testid="pinned-message-banner"], [aria-label*="pinned" i], [aria-label*="disematkan" i], [data-testid="msg-image"], [data-testid="image-thumb"], [data-testid*="media"], img, video'
       );
       if (!target) return;
 

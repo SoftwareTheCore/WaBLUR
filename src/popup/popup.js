@@ -43,7 +43,6 @@ const elements = {
   blurPreviews: document.getElementById('blurPreviews'),
   blurMessages: document.getElementById('blurMessages'),
   blurAvatars: document.getElementById('blurAvatars'),
-  blurMedia: document.getElementById('blurMedia'),
   blurIntensity: document.getElementById('blurIntensity'),
   intensityValue: document.getElementById('intensityValue'),
   tempRevealBtn: document.getElementById('tempRevealBtn'),
@@ -70,7 +69,6 @@ async function loadAndPopulate() {
   elements.blurPreviews.checked = config.blurPreviews;
   elements.blurMessages.checked = config.blurMessages;
   elements.blurAvatars.checked = config.blurAvatars;
-  elements.blurMedia.checked = config.blurMedia;
 
   // Populate slider
   elements.blurIntensity.value = config.blurIntensity;
@@ -105,7 +103,6 @@ function updateToggleStates() {
   elements.blurPreviews.disabled = disabled;
   elements.blurMessages.disabled = disabled;
   elements.blurAvatars.disabled = disabled;
-  elements.blurMedia.disabled = disabled;
   elements.blurIntensity.disabled = disabled;
   elements.tempRevealBtn.disabled = disabled;
 }
@@ -144,11 +141,13 @@ elements.masterToggle.addEventListener('change', () => {
 });
 
 // Feature toggles
-['blurNames', 'blurPreviews', 'blurMessages', 'blurAvatars', 'blurMedia'].forEach(key => {
-  elements[key].addEventListener('change', () => {
-    config[key] = elements[key].checked;
-    saveConfig();
-  });
+['blurNames', 'blurPreviews', 'blurMessages', 'blurAvatars'].forEach(key => {
+  if (elements[key]) {
+    elements[key].addEventListener('change', () => {
+      config[key] = elements[key].checked;
+      saveConfig();
+    });
+  }
 });
 
 // Blur intensity slider

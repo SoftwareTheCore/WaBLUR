@@ -39,7 +39,6 @@ const el = {
   blurPreviews: document.getElementById('blurPreviews'),
   blurMessages: document.getElementById('blurMessages'),
   blurAvatars: document.getElementById('blurAvatars'),
-  blurMedia: document.getElementById('blurMedia'),
   blurIntensity: document.getElementById('blurIntensity'),
   intensityValue: document.getElementById('intensityValue'),
   transitionDuration: document.getElementById('transitionDuration'),
@@ -77,7 +76,6 @@ async function loadAndPopulate() {
   el.blurPreviews.checked = config.blurPreviews;
   el.blurMessages.checked = config.blurMessages;
   el.blurAvatars.checked = config.blurAvatars;
-  el.blurMedia.checked = config.blurMedia;
 
   // Sliders
   el.blurIntensity.value = config.blurIntensity;
@@ -114,7 +112,6 @@ function readFormValues() {
     blurPreviews: el.blurPreviews.checked,
     blurMessages: el.blurMessages.checked,
     blurAvatars: el.blurAvatars.checked,
-    blurMedia: el.blurMedia.checked,
     blurIntensity: parseInt(el.blurIntensity.value, 10) || 8,
     transitionDuration: parseFloat(el.transitionDuration.value) || 0.25,
     hoverProximity: parseInt(el.hoverProximity.value, 10) || 0,
