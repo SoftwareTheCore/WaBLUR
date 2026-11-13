@@ -30,7 +30,6 @@ const DEFAULT_CONFIG = Object.freeze({
   blurPreviews: true,
   blurMessages: true,
   blurAvatars: true,
-  blurMedia: true,
   blurIntensity: 8,          // pixels
   transitionDuration: 0.25,  // seconds
   hoverProximity: 0,         // pixels – extra hit area around blurred elements
@@ -114,7 +113,6 @@ function applyConfigToDOM() {
   html.classList.toggle('wablur-disabled', !config.enabled);
 
   // Feature toggles – each adds a class that activates corresponding CSS rules.
-  // blur.css uses selectors like html.wablur-names:not(.wablur-disabled) ...
   html.classList.toggle('wablur-names', config.blurNames);
   html.classList.toggle('wablur-previews', config.blurPreviews);
   html.classList.toggle('wablur-messages', config.blurMessages);
@@ -197,19 +195,11 @@ const debouncedApplyPerContact = debounce(applyPerContactRules, 200);
 
 /* --------------------------------------------------------------------------
  * MutationObserver – Watch for Dynamic Chat Rows
- *
- * WhatsApp Web is a React SPA with virtualized lists. The chat list and
- * message history only render visible items, so new rows appear on scroll.
- * We watch for DOM additions to apply per-contact rules to new rows.
- *
- * PERFORMANCE: We observe only #pane-side (chat list) with childList+subtree,
- * and debounce the handler to avoid excessive processing during fast scroll.
  * -------------------------------------------------------------------------- */
 
 let sideObserver = null;
 
 function startObserver() {
-  // Wait for #pane-side to exist (WhatsApp SPA may not have rendered yet)
   const sidePanel = document.querySelector('#pane-side');
   if (!sidePanel) {
     setTimeout(startObserver, 1000);
@@ -217,7 +207,6 @@ function startObserver() {
   }
 
   sideObserver = new MutationObserver((mutations) => {
-    // Only re-process if nodes were added (new chat rows rendered)
     const hasAdditions = mutations.some(m => m.addedNodes.length > 0);
     if (hasAdditions) {
       debouncedApplyPerContact();
@@ -227,19 +216,11 @@ function startObserver() {
   sideObserver.observe(sidePanel, {
     childList: true,
     subtree: true,
-    // PERFORMANCE: We don't watch attributes or characterData – only structure
   });
 }
 
 /* --------------------------------------------------------------------------
  * Hover Delay (Optional JS Enhancement)
- *
- * If hoverDelay > 0, we overlay JS-driven reveal timing on top of CSS.
- * When hoverDelay is 0 (default), pure CSS :hover handles everything.
- *
- * PERFORMANCE: Event listeners use event delegation on container elements
- * (#pane-side, [data-testid="conversation-panel-messages"]) instead of
- * attaching per-element listeners.
  * -------------------------------------------------------------------------- */
 
 const hoverDelayTimers = new WeakMap();
@@ -250,7 +231,6 @@ function setupHoverDelay() {
   const selectors = [
     '#pane-side',
     '[data-testid="conversation-panel-messages"]',
-    '#main',
   ];
 
   selectors.forEach(sel => {
@@ -260,7 +240,7 @@ function setupHoverDelay() {
     // Delegated mouseover – find the closest blurrable ancestor
     container.addEventListener('mouseover', (e) => {
       const target = e.target.closest(
-        '[data-testid="cell-frame-container"], [role="row"], [role="gridcell"], [role="listitem"], [data-testid="msg-container"], .message-in, .message-out, [data-id*="false_"], [data-id*="true_"], [data-testid*="pinned"], [data-testid="pinned-message-banner"], [aria-label*="pinned" i], [aria-label*="disematkan" i], [data-testid="msg-image"], [data-testid="image-thumb"], [data-testid*="media"], img, video'
+        '[data-testid="cell-frame-container"], [data-testid="msg-container"], .message-in, .message-out'
       );
       if (!target) return;
 
@@ -278,7 +258,7 @@ function setupHoverDelay() {
     // Delegated mouseout – immediately remove reveal
     container.addEventListener('mouseout', (e) => {
       const target = e.target.closest(
-        '[data-testid="cell-frame-container"], [role="row"], [role="gridcell"], [role="listitem"], [data-testid="msg-container"], .message-in, .message-out, [data-id*="false_"], [data-id*="true_"], [data-testid*="pinned"], [data-testid="pinned-message-banner"], [aria-label*="pinned" i], [aria-label*="disematkan" i], [data-testid="msg-image"], [data-testid="image-thumb"], [data-testid*="media"], img, video'
+        '[data-testid="cell-frame-container"], [data-testid="msg-container"], .message-in, .message-out'
       );
       if (!target) return;
 
@@ -293,16 +273,10 @@ function setupHoverDelay() {
 
 /* --------------------------------------------------------------------------
  * Message Handling – Communication with Background / Popup
- *
- * SECURITY: We validate message structure and verify sender identity before
- * processing. Only messages with known 'action' values are handled.
  * -------------------------------------------------------------------------- */
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  // SECURITY: Verify the message originates from our own extension
   if (sender.id !== chrome.runtime.id) return;
-
-  // Validate message shape
   if (!message || typeof message.action !== 'string') return;
 
   switch (message.action) {
@@ -327,7 +301,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       return true; // async response
 
     default:
-      // SECURITY: Silently ignore unknown actions
       break;
   }
 
@@ -336,10 +309,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 /* --------------------------------------------------------------------------
  * Temporary Reveal
- *
- * Adds wablur-temp-reveal class to <html> that overrides all blur rules.
- * Automatically removed after config.tempRevealDuration milliseconds.
- * User can press Escape to cancel early.
  * -------------------------------------------------------------------------- */
 
 let tempRevealTimer = null;
@@ -365,7 +334,6 @@ function temporaryReveal() {
 
 async function persistConfig() {
   try {
-    // SECURITY: We only write our own config key, never touching other storage
     await chrome.storage.local.set({ wablurConfig: { ...config } });
   } catch (e) {
     console.warn('[WaBLUR] Failed to persist config:', e.message);
@@ -374,9 +342,6 @@ async function persistConfig() {
 
 /* --------------------------------------------------------------------------
  * In-Page Keyboard Listener
- *
- * Handles Escape to cancel temporary reveal. Global hotkeys (Alt+Shift+B/R)
- * are handled by the background service worker via chrome.commands.
  * -------------------------------------------------------------------------- */
 
 document.addEventListener('keydown', (e) => {
@@ -395,9 +360,6 @@ document.addEventListener('keydown', (e) => {
 
 /* --------------------------------------------------------------------------
  * ARIA Announcements (Accessibility)
- *
- * Creates a visually hidden live region that announces blur state changes
- * to screen readers, ensuring keyboard/AT users know when blur toggles.
  * -------------------------------------------------------------------------- */
 
 function announceStateChange(message) {
@@ -409,7 +371,6 @@ function announceStateChange(message) {
     announcer.setAttribute('role', 'status');
     announcer.setAttribute('aria-live', 'polite');
     announcer.setAttribute('aria-atomic', 'true');
-    // Visually hidden but accessible to screen readers
     Object.assign(announcer.style, {
       position: 'absolute',
       width: '1px',
@@ -421,11 +382,9 @@ function announceStateChange(message) {
       whiteSpace: 'nowrap',
       border: '0',
     });
-    // SECURITY: appendChild is safe – we control the element entirely
     document.body.appendChild(announcer);
   }
 
-  // SECURITY: textContent is used instead of innerHTML to prevent XSS
   announcer.textContent = message;
 }
 
@@ -437,7 +396,6 @@ async function init() {
   await loadSettings();
   startObserver();
 
-  // Setup optional hover delay if configured
   if (config.hoverDelay > 0) {
     setupHoverDelay();
   }
@@ -447,7 +405,6 @@ async function init() {
   );
 }
 
-// Launch – run_at: document_idle should ensure DOM is ready, but be safe
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {

@@ -69,7 +69,7 @@ html.wablur-temp-reveal [data-wablur-blurred] {
  * SECTION: Chat List Sidebar
  *
  * Container: #pane-side (⭐⭐⭐⭐⭐ stable)
- * Chat rows: [data-testid="cell-frame-container"] or [role="row"]
+ * Chat rows: [data-testid="cell-frame-container"]
  * ========================================================================== */
 
 /* --- Contact Names in Chat List ---
@@ -99,19 +99,12 @@ html:not(.wablur-disabled).wablur-previews #pane-side [data-testid="last-msg-sta
  * [data-testid="default-user"] (⭐⭐⭐⭐) – default avatar placeholder
  * [data-testid="avatar-block"] (⭐⭐⭐⭐) – avatar wrapper
  * [data-testid="chat-avatar"] (⭐⭐⭐⭐) – avatar in chat context
- * Catch all profile images/SVGs in the sidebar chat cells (including ephemeral/timer chats)
+ * Also catch <img> inside cell-frame-container (including disappearing message 24h timer chats).
  * ------------------------------------------------------------------ */
 html:not(.wablur-disabled).wablur-avatars #pane-side [data-testid="cell-frame-container"] img,
 html:not(.wablur-disabled).wablur-avatars #pane-side [data-testid="cell-frame-container"] [data-testid="default-user"],
 html:not(.wablur-disabled).wablur-avatars #pane-side [data-testid="cell-frame-container"] [data-testid="avatar-block"],
-html:not(.wablur-disabled).wablur-avatars #pane-side [data-testid="cell-frame-container"] [data-testid="chat-avatar"],
-html:not(.wablur-disabled).wablur-avatars #pane-side [data-testid="cell-frame-container"] [data-testid*="avatar"] img,
-html:not(.wablur-disabled).wablur-avatars #pane-side [data-testid="cell-frame-container"] [data-testid*="avatar"] svg,
-html:not(.wablur-disabled).wablur-avatars #pane-side [data-testid="cell-frame-container"] [data-testid*="ephemeral"] img,
-html:not(.wablur-disabled).wablur-avatars #pane-side [data-testid="cell-frame-container"] [data-testid*="disappearing"] img,
-html:not(.wablur-disabled).wablur-avatars #pane-side [data-testid="cell-frame-container"] > div:first-child img,
-html:not(.wablur-disabled).wablur-avatars #pane-side [data-testid="cell-frame-container"] > div:first-child [data-testid="default-user"],
-html:not(.wablur-disabled).wablur-avatars #pane-side [data-testid="cell-frame-container"] > div:first-child svg:not([data-icon*="timer"]):not([data-icon*="disappearing"]):not([data-icon*="unread"]) {
+html:not(.wablur-disabled).wablur-avatars #pane-side [data-testid="cell-frame-container"] [data-testid="chat-avatar"] {
   filter: blur(var(--wablur-intensity));
   transition: filter var(--wablur-transition-duration) ease-in-out;
   will-change: filter;
@@ -121,50 +114,32 @@ html:not(.wablur-disabled).wablur-avatars #pane-side [data-testid="cell-frame-co
 /* ==========================================================================
  * SECTION: Open Chat / Conversation Panel
  *
- * Container: [data-testid="conversation-panel-wrapper"], #main,
- *            [data-testid="conversation-panel-messages"]
+ * Container: [data-testid="conversation-panel-wrapper"] (⭐⭐⭐⭐)
+ * Messages:  [data-testid="conversation-panel-messages"] (⭐⭐⭐⭐⭐)
  * ========================================================================== */
 
 /* --- Pinned Message Banner (Top of Chat Window) ---
- * WhatsApp Web renders pinned messages as a banner right beneath or inside header
+ * WhatsApp Web renders pinned messages banner with data-testid="pinned-message-banner"
+ * or inside the top of the conversation panel.
  * ------------------------------------------------------------------ */
-html:not(.wablur-disabled).wablur-messages #main [data-testid*="pinned"],
-html:not(.wablur-disabled).wablur-messages #main [data-testid="pinned-message-banner"],
-html:not(.wablur-disabled).wablur-messages #main [aria-label*="pinned" i],
-html:not(.wablur-disabled).wablur-messages #main [aria-label*="disematkan" i],
-html:not(.wablur-disabled).wablur-messages #main header + div [role="button"],
-html:not(.wablur-disabled).wablur-messages #main header ~ div:has([data-icon*="pin"]),
-html:not(.wablur-disabled).wablur-messages #main div:has(> [data-icon*="pin"]),
-html:not(.wablur-disabled).wablur-messages [data-testid="conversation-panel-wrapper"] header + div [role="button"] {
+html:not(.wablur-disabled).wablur-messages [data-testid="pinned-message-banner"] {
   filter: blur(var(--wablur-intensity));
   transition: filter var(--wablur-transition-duration) ease-in-out;
   will-change: filter;
 }
 
-/* Hover reveal pinned message banner */
-html:not(.wablur-disabled) #main [data-testid*="pinned"]:hover,
-html:not(.wablur-disabled) #main [data-testid="pinned-message-banner"]:hover,
-html:not(.wablur-disabled) #main [aria-label*="pinned" i]:hover,
-html:not(.wablur-disabled) #main [aria-label*="disematkan" i]:hover,
-html:not(.wablur-disabled) #main header + div [role="button"]:hover,
-html:not(.wablur-disabled) #main header ~ div:has([data-icon*="pin"]):hover,
-html:not(.wablur-disabled) #main div:has(> [data-icon*="pin"]):hover,
-html:not(.wablur-disabled) [data-testid="conversation-panel-wrapper"] header + div [role="button"]:hover {
-  filter: blur(0px) !important;
-}
-
-/* --- Message Bubbles & Chat History ---
+/* --- Message Bubbles ---
  * [data-testid="msg-container"] (⭐⭐⭐⭐⭐) – individual message wrapper
  * .message-in / .message-out (⭐⭐⭐⭐) – historically stable direction classes
- * .focusable-list-item – virtualized item wrapper in #main
- * [data-id*="true_"] / [data-id*="false_"] – message identifiers
  * ------------------------------------------------------------------ */
-html:not(.wablur-disabled).wablur-messages [data-testid="conversation-panel-messages"] [data-testid="msg-container"],
-html:not(.wablur-disabled).wablur-messages #main [data-testid="msg-container"],
-html:not(.wablur-disabled).wablur-messages #main [data-id*="false_"],
-html:not(.wablur-disabled).wablur-messages #main [data-id*="true_"],
-html:not(.wablur-disabled).wablur-messages #main .message-in,
-html:not(.wablur-disabled).wablur-messages #main .message-out,
+html:not(.wablur-disabled).wablur-messages [data-testid="conversation-panel-messages"] [data-testid="msg-container"] {
+  filter: blur(var(--wablur-intensity));
+  transition: filter var(--wablur-transition-duration) ease-in-out;
+  will-change: filter;
+  contain: paint;
+}
+
+/* Fallback: blur entire message rows if msg-container isn't present */
 html:not(.wablur-disabled).wablur-messages [data-testid="conversation-panel-messages"] .message-in,
 html:not(.wablur-disabled).wablur-messages [data-testid="conversation-panel-messages"] .message-out {
   filter: blur(var(--wablur-intensity));
@@ -178,9 +153,7 @@ html:not(.wablur-disabled).wablur-messages [data-testid="conversation-panel-mess
  * Header contains span[title] for the contact name.
  * ------------------------------------------------------------------ */
 html:not(.wablur-disabled).wablur-names [data-testid="conversation-header"] span[title],
-html:not(.wablur-disabled).wablur-names [data-testid="conversation-header"] span[dir="auto"],
-html:not(.wablur-disabled).wablur-names #main header span[title],
-html:not(.wablur-disabled).wablur-names #main header span[dir="auto"] {
+html:not(.wablur-disabled).wablur-names [data-testid="conversation-header"] span[dir="auto"] {
   filter: blur(var(--wablur-intensity));
   transition: filter var(--wablur-transition-duration) ease-in-out;
   will-change: filter;
@@ -189,42 +162,7 @@ html:not(.wablur-disabled).wablur-names #main header span[dir="auto"] {
 /* --- Avatar in Chat Header --- */
 html:not(.wablur-disabled).wablur-avatars [data-testid="conversation-header"] img,
 html:not(.wablur-disabled).wablur-avatars [data-testid="conversation-header"] [data-testid="default-user"],
-html:not(.wablur-disabled).wablur-avatars [data-testid="conversation-header"] [data-testid="chat-avatar"],
-html:not(.wablur-disabled).wablur-avatars [data-testid="conversation-header"] [data-testid*="avatar"] img,
-html:not(.wablur-disabled).wablur-avatars [data-testid="conversation-header"] [data-testid*="ephemeral"] img,
-html:not(.wablur-disabled).wablur-avatars [data-testid="conversation-header"] [data-testid*="disappearing"] img,
-html:not(.wablur-disabled).wablur-avatars [data-testid="conversation-header"] > div:first-child img,
-html:not(.wablur-disabled).wablur-avatars [data-testid="conversation-header"] > div:first-child svg:not([data-icon*="timer"]):not([data-icon*="disappearing"]),
-html:not(.wablur-disabled).wablur-avatars #main header img,
-html:not(.wablur-disabled).wablur-avatars #main header [data-testid="default-user"] {
-  filter: blur(var(--wablur-intensity));
-  transition: filter var(--wablur-transition-duration) ease-in-out;
-  will-change: filter;
-}
-
-/* --- Media in Messages (images, videos, stickers, GIFs, voice, audio) ---
- * [data-testid="msg-image"] (⭐⭐⭐⭐) – image messages
- * [data-testid="msg-video"] (⭐⭐⭐⭐) – video messages
- * [data-testid="sticker"] (⭐⭐⭐⭐) – sticker elements
- * [data-testid="image-thumb"] (⭐⭐⭐) – thumbnails
- * ------------------------------------------------------------------ */
-html:not(.wablur-disabled).wablur-media #main [data-testid="msg-image"],
-html:not(.wablur-disabled).wablur-media #main [data-testid="msg-video"],
-html:not(.wablur-disabled).wablur-media #main [data-testid="sticker"],
-html:not(.wablur-disabled).wablur-media #main [data-testid="image-thumb"],
-html:not(.wablur-disabled).wablur-media #main [data-testid="document-thumb"],
-html:not(.wablur-disabled).wablur-media #main [data-testid*="media"],
-html:not(.wablur-disabled).wablur-media #main [data-testid="audio-player"],
-html:not(.wablur-disabled).wablur-media #main img[src*="blob:"],
-html:not(.wablur-disabled).wablur-media #main img[src*="data:"],
-html:not(.wablur-disabled).wablur-media #main video,
-html:not(.wablur-disabled).wablur-media [data-testid="conversation-panel-messages"] [data-testid="msg-image"],
-html:not(.wablur-disabled).wablur-media [data-testid="conversation-panel-messages"] [data-testid="msg-video"],
-html:not(.wablur-disabled).wablur-media [data-testid="conversation-panel-messages"] [data-testid="sticker"],
-html:not(.wablur-disabled).wablur-media [data-testid="conversation-panel-messages"] [data-testid="image-thumb"],
-html:not(.wablur-disabled).wablur-media [data-testid="conversation-panel-messages"] [data-testid="document-thumb"],
-html:not(.wablur-disabled).wablur-media [data-testid="conversation-panel-messages"] img[src*="blob:"],
-html:not(.wablur-disabled).wablur-media [data-testid="conversation-panel-messages"] video {
+html:not(.wablur-disabled).wablur-avatars [data-testid="conversation-header"] [data-testid="chat-avatar"] {
   filter: blur(var(--wablur-intensity));
   transition: filter var(--wablur-transition-duration) ease-in-out;
   will-change: filter;
@@ -233,11 +171,10 @@ html:not(.wablur-disabled).wablur-media [data-testid="conversation-panel-message
 /* ==========================================================================
  * SECTION: Hover Reveal
  *
- * Chat list items reveal when the ROW is hovered (not just the blurred text).
- * Message bubbles reveal when the BUBBLE is hovered.
+ * ONLY the specific row or message bubble being hovered reveals!
  * ========================================================================== */
 
-/* --- Chat List Row Hover → Reveal all blurred children --- */
+/* --- Chat List Row Hover → Reveal ONLY THAT hovered row's children --- */
 html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]:hover [data-testid="cell-frame-title"],
 html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]:hover span[dir="auto"][title],
 html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]:hover [data-testid="cell-frame-secondary"],
@@ -245,119 +182,35 @@ html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]:hover
 html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]:hover img,
 html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]:hover [data-testid="default-user"],
 html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]:hover [data-testid="avatar-block"],
-html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]:hover [data-testid="chat-avatar"],
-html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]:hover [data-testid*="avatar"] img,
-html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]:hover [data-testid*="ephemeral"] img,
-html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]:hover [data-testid*="disappearing"] img,
-html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]:hover > div:first-child img,
-html:not(.wablur-disabled) #pane-side [role="row"]:hover [data-testid="cell-frame-title"],
-html:not(.wablur-disabled) #pane-side [role="row"]:hover span[dir="auto"][title],
-html:not(.wablur-disabled) #pane-side [role="row"]:hover [data-testid="cell-frame-secondary"],
-html:not(.wablur-disabled) #pane-side [role="row"]:hover [data-testid="last-msg-status"],
-html:not(.wablur-disabled) #pane-side [role="row"]:hover img,
-html:not(.wablur-disabled) #pane-side [role="row"]:hover [data-testid="default-user"],
-html:not(.wablur-disabled) #pane-side [role="gridcell"]:hover [data-testid="cell-frame-title"],
-html:not(.wablur-disabled) #pane-side [role="gridcell"]:hover span[dir="auto"][title],
-html:not(.wablur-disabled) #pane-side [role="gridcell"]:hover [data-testid="cell-frame-secondary"],
-html:not(.wablur-disabled) #pane-side [role="gridcell"]:hover [data-testid="last-msg-status"],
-html:not(.wablur-disabled) #pane-side [role="gridcell"]:hover img,
-html:not(.wablur-disabled) #pane-side [role="gridcell"]:hover [data-testid="default-user"],
-html:not(.wablur-disabled) #pane-side [role="listitem"]:hover [data-testid="cell-frame-title"],
-html:not(.wablur-disabled) #pane-side [role="listitem"]:hover span[dir="auto"][title],
-html:not(.wablur-disabled) #pane-side [role="listitem"]:hover [data-testid="cell-frame-secondary"],
-html:not(.wablur-disabled) #pane-side [role="listitem"]:hover [data-testid="last-msg-status"],
-html:not(.wablur-disabled) #pane-side [role="listitem"]:hover img,
-html:not(.wablur-disabled) #pane-side [role="listitem"]:hover [data-testid="default-user"],
-html:not(.wablur-disabled) #pane-side [tabindex]:hover [data-testid="cell-frame-title"],
-html:not(.wablur-disabled) #pane-side [tabindex]:hover span[dir="auto"][title],
-html:not(.wablur-disabled) #pane-side [tabindex]:hover [data-testid="cell-frame-secondary"],
-html:not(.wablur-disabled) #pane-side [tabindex]:hover [data-testid="last-msg-status"],
-html:not(.wablur-disabled) #pane-side [tabindex]:hover img,
-html:not(.wablur-disabled) #pane-side [tabindex]:hover [data-testid="default-user"] {
+html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]:hover [data-testid="chat-avatar"] {
   filter: blur(0px) !important;
 }
 
-/* --- Message Bubble Hover → Reveal content and media --- */
+/* Direct hover on individual sidebar items (fallback) */
+html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-title"]:hover,
+html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-secondary"]:hover,
+html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"] img:hover {
+  filter: blur(0px) !important;
+}
+
+/* --- Pinned Message Banner Hover → Reveal ONLY the pinned message banner --- */
+html:not(.wablur-disabled) [data-testid="pinned-message-banner"]:hover {
+  filter: blur(0px) !important;
+}
+
+/* --- Message Bubble Hover → Reveal ONLY THAT specific message bubble --- */
 html:not(.wablur-disabled) [data-testid="conversation-panel-messages"] [data-testid="msg-container"]:hover,
 html:not(.wablur-disabled) [data-testid="conversation-panel-messages"] .message-in:hover,
-html:not(.wablur-disabled) [data-testid="conversation-panel-messages"] .message-out:hover,
-html:not(.wablur-disabled) #main [data-testid="msg-container"]:hover,
-html:not(.wablur-disabled) #main .message-in:hover,
-html:not(.wablur-disabled) #main .message-out:hover,
-html:not(.wablur-disabled) #main [data-id*="false_"]:hover,
-html:not(.wablur-disabled) #main [data-id*="true_"]:hover {
+html:not(.wablur-disabled) [data-testid="conversation-panel-messages"] .message-out:hover {
   filter: blur(0px) !important;
 }
 
-/* Media within hovered message also reveals */
-html:not(.wablur-disabled) [data-testid="msg-container"]:hover [data-testid="msg-image"],
-html:not(.wablur-disabled) [data-testid="msg-container"]:hover [data-testid="msg-video"],
-html:not(.wablur-disabled) [data-testid="msg-container"]:hover [data-testid="sticker"],
-html:not(.wablur-disabled) [data-testid="msg-container"]:hover [data-testid="image-thumb"],
-html:not(.wablur-disabled) [data-testid="msg-container"]:hover [data-testid="document-thumb"],
-html:not(.wablur-disabled) [data-testid="msg-container"]:hover [data-testid*="media"],
-html:not(.wablur-disabled) [data-testid="msg-container"]:hover [data-testid="audio-player"],
-html:not(.wablur-disabled) [data-testid="msg-container"]:hover img,
-html:not(.wablur-disabled) [data-testid="msg-container"]:hover video,
-html:not(.wablur-disabled) .message-in:hover img,
-html:not(.wablur-disabled) .message-in:hover video,
-html:not(.wablur-disabled) .message-in:hover [data-testid="image-thumb"],
-html:not(.wablur-disabled) .message-out:hover img,
-html:not(.wablur-disabled) .message-out:hover video,
-html:not(.wablur-disabled) .message-out:hover [data-testid="image-thumb"],
-html:not(.wablur-disabled) #main [data-id]:hover img,
-html:not(.wablur-disabled) #main [data-id]:hover video,
-html:not(.wablur-disabled) #main [data-id]:hover [data-testid="image-thumb"],
-html:not(.wablur-disabled) #main [data-id]:hover [data-testid*="media"] {
-  filter: blur(0px) !important;
-}
-
-/* Direct Hover on Media Elements (Ensures unblur even if hovered directly) */
-html:not(.wablur-disabled) [data-testid="msg-image"]:hover,
-html:not(.wablur-disabled) [data-testid="msg-video"]:hover,
-html:not(.wablur-disabled) [data-testid="sticker"]:hover,
-html:not(.wablur-disabled) [data-testid="image-thumb"]:hover,
-html:not(.wablur-disabled) [data-testid="document-thumb"]:hover,
-html:not(.wablur-disabled) [data-testid*="media"]:hover,
-html:not(.wablur-disabled) #main img[src*="blob:"]:hover,
-html:not(.wablur-disabled) #main img[src*="data:"]:hover,
-html:not(.wablur-disabled) #main video:hover {
-  filter: blur(0px) !important;
-}
-
-/* --- Chat Header Hover → Reveal name and avatar --- */
+/* --- Chat Header Hover → Reveal ONLY header name and avatar --- */
 html:not(.wablur-disabled) [data-testid="conversation-header"]:hover span[title],
 html:not(.wablur-disabled) [data-testid="conversation-header"]:hover span[dir="auto"],
 html:not(.wablur-disabled) [data-testid="conversation-header"]:hover img,
 html:not(.wablur-disabled) [data-testid="conversation-header"]:hover [data-testid="default-user"],
 html:not(.wablur-disabled) [data-testid="conversation-header"]:hover [data-testid="chat-avatar"] {
-  filter: blur(0px) !important;
-}
-
-/* ==========================================================================
- * SECTION: Direct Hover & Focus on Individual Blurred Elements
- *
- * Fallback to ensure that even if parent hover triggers are missed
- * (e.g., pinned chats, complex wrapper hierarchies), directly hovering
- * on ANY blurred child element immediately reveals it.
- * ========================================================================== */
-
-html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-title"]:hover,
-html:not(.wablur-disabled) #pane-side span[dir="auto"][title]:hover,
-html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-secondary"]:hover,
-html:not(.wablur-disabled) #pane-side [data-testid="last-msg-status"]:hover,
-html:not(.wablur-disabled) #pane-side img:hover,
-html:not(.wablur-disabled) #pane-side [data-testid="default-user"]:hover,
-html:not(.wablur-disabled) #pane-side [data-testid*="avatar"]:hover,
-html:not(.wablur-disabled) #main header span[title]:hover,
-html:not(.wablur-disabled) #main header img:hover,
-html:not(.wablur-disabled) #main [data-testid="msg-container"]:hover,
-html:not(.wablur-disabled) #main .message-in:hover,
-html:not(.wablur-disabled) #main .message-out:hover,
-html:not(.wablur-disabled) #main [data-testid*="pinned"]:hover,
-html:not(.wablur-disabled) [data-testid="pinned-message-banner"]:hover,
-html:not(.wablur-disabled) [aria-label*="pinned" i]:hover,
-html:not(.wablur-disabled) [aria-label*="disematkan" i]:hover {
   filter: blur(0px) !important;
 }
 
@@ -403,58 +256,23 @@ html:not(.wablur-disabled) [data-wablur-contact="whitelisted"] [data-testid="cha
 /* ==========================================================================
  * SECTION: Keep Notification Badges & Status Icons Visible
  *
- * Unread count badges, mute icons, and disappearing timer badges should
- * remain visible and unblurred even when the rest is blurred,
- * so the user knows which chats have new messages and status icons.
+ * Unread count badges and timer icons should remain visible even when
+ * the rest is blurred, so user knows status.
  * ========================================================================== */
 
 #pane-side [data-testid="icon-unread-count"],
 #pane-side [data-testid*="unread"],
-#pane-side [aria-label*="unread" i],
-#pane-side [aria-label*="pesan belum dibaca" i],
+#pane-side span[aria-label*="unread" i],
+#pane-side span[aria-label*="pesan belum dibaca" i],
 #pane-side [data-icon*="timer"],
 #pane-side [data-icon*="disappearing"],
 #pane-side [data-testid*="timer"],
-#pane-side [data-testid*="ephemeral-icon"],
-#pane-side [aria-label*="disappearing" i],
-#pane-side [aria-label*="pesan sementara" i],
-[data-testid="conversation-header"] [data-icon*="timer"],
-[data-testid="conversation-header"] [data-icon*="disappearing"],
-[data-testid="conversation-header"] [data-testid*="timer"],
-[data-testid="conversation-header"] [aria-label*="disappearing" i],
-[data-testid="conversation-header"] [aria-label*="pesan sementara" i] {
+#pane-side [data-testid*="ephemeral-icon"] {
   filter: blur(0px) !important;
 }
 
 /* ==========================================================================
- * SECTION: Proximity Hover Expansion (CSS Pseudo-element)
- *
- * Adds an invisible expanded hit area around chat rows and message bubbles
- * so the cursor doesn't need to be exactly on the element to trigger reveal.
- * Size is controlled by --wablur-hover-proximity CSS variable.
- *
- * PERFORMANCE: Only applies when proximity > 0 (default is 0, no overhead).
- * ========================================================================== */
-
-html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"] {
-  position: relative;
-}
-
-html:not(.wablur-disabled) #pane-side [data-testid="cell-frame-container"]::before {
-  content: "";
-  position: absolute;
-  top: calc(-1 * var(--wablur-hover-proximity));
-  left: calc(-1 * var(--wablur-hover-proximity));
-  right: calc(-1 * var(--wablur-hover-proximity));
-  bottom: calc(-1 * var(--wablur-hover-proximity));
-  z-index: -1;
-}
-
-/* ==========================================================================
  * SECTION: Smooth Transition Overrides
- *
- * Ensure all blur transitions are smooth. The transition-duration variable
- * allows users to control animation speed.
  * ========================================================================== */
 
 html.wablur-temp-reveal * {
